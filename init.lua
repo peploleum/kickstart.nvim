@@ -194,6 +194,9 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<leader>b', "<cmd>lua require'dap'.toggle_breakpoint()<CR>")
 vim.keymap.set('n', '<F5>', "<cmd>lua require'dap'.continue()<CR>")
 vim.keymap.set('n', '<F6>', "<cmd>lua require'dap'.step_over()<CR>")
+vim.keymap.set('n', '<F7>', "<cmd>lua require'dap'.step_into()<CR>")
+vim.keymap.set('n', '<leader>e', "<cmd>lua require'dapui'.eval()<CR>")
+vim.keymap.set('v', '<leader>e', "<cmd>lua require'dapui'.eval()<CR>")
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -825,15 +828,43 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
-  { -- NOTE Debugger plugin configuration
+  -- NOTE: DEBUGGER SECTION
+  { -- Debugger plugin configuration
     'mfussenegger/nvim-dap',
   },
-  { -- NOTE dap-go
+  { -- Debugger UI plugin configuration
+    'rcarriga/nvim-dap-ui',
+    dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
+    config = function(_, opts)
+      require('dapui').setup(opts)
+      local dap, dapui = require 'dap', require 'dapui'
+      dap.listeners.before.attach.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited.dapui_config = function()
+        dapui.close()
+      end
+    end,
+  },
+  { -- Debugger Virtual Text plugin configuration
+    'theHamsta/nvim-dap-virtual-text',
+  },
+  { -- Debugger Telesclope plugin configuration
+    'nvim-telescope/telescope-dap.nvim',
+  },
+  { -- dap-go
     'leoluz/nvim-dap-go',
     config = function(_, opts)
       require('dap-go').setup(opts)
     end,
   },
+  -- NOTE: END OF DEBUGGER SECTION
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
