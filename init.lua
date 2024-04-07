@@ -417,6 +417,12 @@ require('lazy').setup({
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
+      -- NOTE: LSP SPECIFIC DEPENDENCIES
+      {
+        'towolf/vim-helm',
+        ft = 'helm',
+      },
+      -- NOTE: END OF LSP SPECIFIC DEPENDENCIES
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -565,6 +571,17 @@ require('lazy').setup({
             },
           },
         },
+        -- NOTE: peploleum specific config
+        helm_ls = {
+          settings = {
+            ['helm-ls'] = {
+              yamlls = {
+                path = 'yaml-language-server',
+              },
+            },
+          },
+        },
+        yamlls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -857,6 +874,26 @@ require('lazy').setup({
     end,
   },
   -- NOTE: END OF DEBUGGER SECTION
+  -- NOTE: REFACTORING SECTION
+  {
+    'ThePrimeagen/refactoring.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('refactoring').setup {
+        prompt_func_return_type = {
+          go = true,
+        },
+        prompt_func_param_type = {
+          go = true,
+        },
+        show_success_message = false,
+      }
+    end,
+  },
+  -- NOTE: END OF REFACTORING SECTION
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
