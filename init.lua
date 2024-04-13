@@ -402,6 +402,12 @@ require('lazy').setup({
     end,
   },
 
+  -- NOTE: LSP SPECIFIC DEPENDENCIES
+  {
+    'towolf/vim-helm',
+    ft = 'helm',
+  },
+  -- NOTE: END OF LSP SPECIFIC DEPENDENCIES
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -417,12 +423,6 @@ require('lazy').setup({
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
-      -- NOTE: LSP SPECIFIC DEPENDENCIES
-      {
-        'towolf/vim-helm',
-        ft = 'helm',
-      },
-      -- NOTE: END OF LSP SPECIFIC DEPENDENCIES
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -507,6 +507,8 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          map('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]add')
+          map('<leader>wd', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [D]add')
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -575,13 +577,31 @@ require('lazy').setup({
         helm_ls = {
           settings = {
             ['helm-ls'] = {
+              logLevel = 'info',
+              valuesFiles = {
+                mainValuesFile = 'values.yaml',
+                lintOverlayValuesFile = 'values.lint.yaml',
+                additionalValuesFilesGlobPattern = 'values*.yaml',
+              },
               yamlls = {
+                enabled = true,
+                diagnosticsLimit = 50,
+                showDiagnosticsDirectly = false,
                 path = 'yaml-language-server',
+                config = {
+                  schemas = {
+                    kubernetes = 'templates/**',
+                  },
+                  completion = true,
+                  hover = true,
+                  -- any other config from https://github.com/redhat-developer/yaml-language-server#language-server-settings
+                },
               },
             },
           },
         },
-        yamlls = {},
+        -- yamlls = {},
+        -- ansiblels = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -894,6 +914,11 @@ require('lazy').setup({
     end,
   },
   -- NOTE: END OF REFACTORING SECTION
+  -- NOTE: ANSIBLE SECTION
+  {
+    'pearofducks/ansible-vim',
+  },
+  -- NOTE: END OF ANSIBLE SECTION
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
