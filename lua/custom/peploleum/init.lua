@@ -4,10 +4,6 @@ local mappings = {}
 -- Terminal mode espace (works with tmux in WSL2)
 vim.keymap.set('t', '<ESC><ESC>', '<C-\\><C-n>', { desc = 'Escape Terminal mode' })
 -- Debugger keymaps
-vim.keymap.set('n', '<leader>b', "<cmd>lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set('n', '<F5>', "<cmd>lua require'dap'.continue()<CR>")
-vim.keymap.set('n', '<F6>', "<cmd>lua require'dap'.step_over()<CR>")
-vim.keymap.set('n', '<F7>', "<cmd>lua require'dap'.step_into()<CR>")
 vim.keymap.set({ 'n', 'v' }, '<leader>e', "<cmd>lua require'dapui'.eval()<CR>")
 
 -- Utilities remaps
