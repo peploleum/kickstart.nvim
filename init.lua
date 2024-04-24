@@ -402,6 +402,10 @@ require('lazy').setup({
     end,
   },
 
+  -- NOTE: Vim/tmux integration
+  {
+    'christoomey/vim-tmux-navigator',
+  },
   -- NOTE: LSP SPECIFIC DEPENDENCIES
   {
     'towolf/vim-helm',
