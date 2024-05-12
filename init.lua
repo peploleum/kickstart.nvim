@@ -406,6 +406,31 @@ require('lazy').setup({
   {
     'christoomey/vim-tmux-navigator',
   },
+  -- NOTE: Copilot
+  -- { 'github/copilot.vim' },
+  --{
+  --  'huggingface/llm.nvim',
+  --  opts = {
+  --    model = 'deepseek-coder-6.7b-base',
+  --    backend = 'openai',
+  --    url = 'http://localhost:35441/v1/completions',
+  --    request_body = {
+  --      parameters = {
+  --        max_new_tokens = 60,
+  --        temperature = 0.2,
+  --        top_p = 0.95,
+  --      },
+  --    },
+  --    -- set this if the model supports fill in the middle
+  --    fim = {
+  --      enabled = true,
+  --      prefix = '<fim_prefix>',
+  --      middle = '<fim_middle>',
+  --      suffix = '<fim_suffix>',
+  --    },
+  --    debounce_ms = 150,
+  --  },
+  --},
   -- NOTE: LSP SPECIFIC DEPENDENCIES
   {
     'towolf/vim-helm',
